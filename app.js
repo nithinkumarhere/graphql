@@ -1,11 +1,23 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+import express from 'express';
+import graphlHTTP from 'express-graphql';
+import mongoose from 'mongoose';
+import schema from './api/schema/index';
 
 const app = express();
-app.use(bodyParser.json());
+const PORT = 3000;
 
-app.get('/', (req, res, next) => {
-    res.send('Hello world!');
-})
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/nrblock');
 
-app.listen(3000);
+app.get('/', (req, res) => {
+    res.json({
+        msg: 'E-wallet with graphQL'
+    })
+});
+app.use('/api', graphlHTTP({
+    schema: schema,
+    graphiql: true
+}));
+app.listen(PORT, () => {
+    console.log(`Server is listening on PORT ${PORT}`);
+});
