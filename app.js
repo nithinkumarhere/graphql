@@ -3,6 +3,7 @@ import graphlHTTP from 'express-graphql';
 import mongoose from 'mongoose';
 import schema from './api/schema/index';
 
+
 const app = express();
 const PORT = 3000;
 
@@ -24,10 +25,13 @@ app.get('/', (req, res) => {
         msg: 'NRBlock graphQL Server'
     })
 });
+
 app.use('/api', graphlHTTP({
     schema: schema,
     graphiql: true
 }));
+
+
 app.listen(PORT, () => {
     console.log(`Server is listening on PORT ${PORT}`);
 });

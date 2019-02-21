@@ -23,13 +23,14 @@
   },
   "homepage": "https://github.com/nithinkumarhere/graphql#readme",
   "dependencies": {
-    "body-parser": "^1.18.3",
     "babel": "^5.8.23",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "express-graphql": "^0.7.1",
     "graphql": "^14.1.1",
     "graphql-tools": "^4.0.4",
-    "mongoose": "^5.4.14"
+    "mongoose": "^5.4.14",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"
