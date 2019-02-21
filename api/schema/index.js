@@ -7,7 +7,8 @@ const typeDefs = `
             kycId: String!
             requester: String!
             requestedOn: String!
-            respondedOn: String!
+            respondedOn: String
+            kycStatus: String
         }
         type Query {
             getRequest(_id: ID!): Request
@@ -17,7 +18,8 @@ const typeDefs = `
             kycId: String!
             requester: String!
             requestedOn: String!
-            respondedOn: String!
+            respondedOn: String
+            kycStatus: String
         }
         type Mutation {
             createRequest(input: RequestInput) : Request

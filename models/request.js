@@ -17,6 +17,10 @@ const RequestSchema = new Schema({
     respondedOn: {
         type: String,
         required: true
+    },
+    kycStatus: {
+        type: String,
+        required: true
     }
 });
 

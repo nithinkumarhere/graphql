@@ -12,7 +12,7 @@ mongoose.connect('mongodb://localhost/nrblock');
 
 app.get('/', (req, res) => {
     res.json({
-        msg: 'E-wallet with graphQL'
+        msg: 'NRBlock graphQL Server'
     })
 });
 

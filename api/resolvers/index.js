@@ -28,7 +28,8 @@ export const resolvers = {
                 }
             })
 
-            return await Request.create(input);
+            var changeObject = {kycId: input.kycId, requester: input.requester, requestedOn: input.requestedOn, respondedOn: "current Time", kycStatus: "Approved"};
+            return await Request.create(changeObject);
         },
         async updateRequest(root, { _id, input }) {
             return await Request.findOneAndUpdate({ _id }, input, { new: true })
