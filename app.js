@@ -7,6 +7,16 @@ import schema from './api/schema/index';
 const app = express();
 const PORT = 3000;
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS'){
+        return res.sendStatus(200);
+    }
+    next();
+});
+
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/nrblock');
 
