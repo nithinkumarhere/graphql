@@ -1,7 +1,7 @@
 import Request from '../../models/request';
 import request from 'request';
-import http from 'http';
-import { stringify } from 'querystring';
+var requestify = require('requestify'); 
+var MyApp = {};
 
 export const resolvers = {
     
@@ -16,24 +16,22 @@ export const resolvers = {
     Mutation: {
         async createRequest(root, { input }) {
             var kycID = input.kycId;
-            console.log(kycID)
-            
-            // request({
-            //     method: 'GET',
-            //     uri: 'http://35.184.211.155:3031/api/kycAsset/'+kycID,
-            //     headers: {}
-            // }, function (error, response, body){
-            //     if(!error && response.statusCode == 200){
-            //         status = JSON.parse(body).status;
-            //         console.log("2"+status)
-            //     }else{
-            //         res.json("fail")
-            //     }
-            // })
 
-       
-            var changeObject = {kycId: input.kycId, requester: input.requester, requestedOn: input.requestedOn, respondedOn: "current Time", kycStatus: status};
-            return  Request.create(changeObject);
+            function timeStampFun() {
+                var now = new Date();
+                var year = "" + now.getFullYear();
+                var month = "" + (now.getMonth() + 1); if (month.length == 1) { month = "0" + month; }
+                var day = "" + now.getDate(); if (day.length == 1) { day = "0" + day; }
+                var hour = "" + (now.getHours()); if (hour.length == 1) { hour = "0" + hour; }
+                var minute = "" + now.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
+                var second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
+                return day +'-'+ month +'-'+ year +' '+ hour +':'+ minute+':'+second;
+            }
+           var status = await requestify.get('http://35.184.211.155:3031/api/kycAsset/'+kycID).then(function (response) {
+                return response.getBody().status;
+            });
+            var changeObject = { kycId: input.kycId, requester: input.requester, requestedOn: input.requestedOn, respondedOn: timeStampFun(), kycStatus: status};
+            return await Request.create(changeObject);   
         },
         async updateRequest(root, { _id, input }) {
             return await Request.findOneAndUpdate({ _id }, input, { new: true })
