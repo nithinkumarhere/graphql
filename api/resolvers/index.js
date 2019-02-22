@@ -25,17 +25,20 @@ export const resolvers = {
                 var second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
                 return day +'-'+ month +'-'+ year +' '+ hour +':'+ minute+':'+second;
             }
-            var status = await requestify.get('http://35.184.211.155:3031/api/kycAsset/'+kycID).then(function (response) {
-                return [response.getBody().mobileNumber, response.getBody().passportNumber, response.getBody().homeCountryAddress, response.getBody().status];
+
+            var status = await requestify.get('http://35.184.211.155:3031/api/kycAsset/' + kycID).then(function (response) {
+                    return [response.getBody().mobileNumber, response.getBody().passportNumber, response.getBody().homeCountryAddress, response.getBody().status];
             });
+
             //validate aadhar
             var aadharVal;
-            if(status[2]==input.aadhar){
-                aadharVal="Verified";
+            if (status[2] == input.aadhar) {
+                aadharVal = "Verified";
             }
-            else{
-                aadharVal="Not Verified"
+            else {
+                aadharVal = "Not Verified"  
             }
+            
             //validate passport
             var passportVal;
             if (status[1] == input.passport) {
@@ -44,6 +47,7 @@ export const resolvers = {
             else {
                 passportVal = "Not Verified"
             }
+
             //validate phone
             var phoneVal;
             if (status[0] == input.phone) {
@@ -52,8 +56,9 @@ export const resolvers = {
             else {
                 phoneVal = "Not Verified"
             }
+
             var changeObject = { kycId: input.kycId, requester: input.requester, requestedOn: input.requestedOn, respondedOn: timeStampFun(), aadhar: aadharVal, passport: passportVal, phone: phoneVal, kycStatus: status[3] };
-            return await Request.create(changeObject);   
+            return await Request.create(changeObject); 
         },
         async updateRequest(root, { _id, input }) {
             return await Request.findOneAndUpdate({ _id }, input, { new: true })
