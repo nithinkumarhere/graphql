@@ -11,7 +11,6 @@ const typeDefs = `
             aadhar: String!
             passport: String!
             phone: String!
-            address: String
             kycStatus: String
         }
         type Query {
@@ -26,7 +25,6 @@ const typeDefs = `
             aadhar: String!
             passport: String!
             phone: String!
-            address: String
             kycStatus: String
         }
         type Mutation {

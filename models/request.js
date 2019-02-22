@@ -30,10 +30,6 @@ const RequestSchema = new Schema({
         type: String,
         required: true
     },
-    address: {
-        type: String,
-        required: true
-    },
     kycStatus: {
         type: String,
         required: true

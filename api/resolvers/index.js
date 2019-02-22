@@ -1,7 +1,6 @@
 import Request from '../../models/request';
-import request from 'request';
 var requestify = require('requestify'); 
-var MyApp = {};
+
 export const resolvers = {
     
     Query: {
@@ -16,9 +15,8 @@ export const resolvers = {
        async createRequest(root, { input }) {
             var kycID = input.kycId;
             var status = await requestify.get('http://35.184.211.155:3031/api/kycAsset/'+kycID).then(function (response) {
-                return [response.getBody().mobileNumber, response.getBody().passportNumber, response.getBody().homeCountryAddress, response.getBody().status, response.getBody().address];
+                return [response.getBody().mobileNumber, response.getBody().passportNumber, response.getBody().homeCountryAddress, response.getBody().status];
             });
-            console.log(status[3]);
             //validate aadhar
             var aadharVal;
             if(status[2]==input.aadhar){
@@ -43,7 +41,7 @@ export const resolvers = {
             else {
                 phoneVal = "Not Verified"
             }
-            var changeObject = { kycId: input.kycId, requester: input.requester, requestedOn: input.requestedOn, respondedOn: "current Time", aadhar: aadharVal, passport: passportVal, phone: phoneVal, address: status[4], kycStatus: status[3] };
+            var changeObject = { kycId: input.kycId, requester: input.requester, requestedOn: input.requestedOn, respondedOn: "current Time", aadhar: aadharVal, passport: passportVal, phone: phoneVal, kycStatus: status[3] };
             return await Request.create(changeObject);   
         },
         async updateRequest(root, { _id, input }) {
