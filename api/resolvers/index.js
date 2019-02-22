@@ -12,8 +12,19 @@ export const resolvers = {
         }
     },
     Mutation: {
-       async createRequest(root, { input }) {
+        async createRequest(root, { input }) {
             var kycID = input.kycId;
+
+            function timeStampFun() {
+                var now = new Date();
+                var year = "" + now.getFullYear();
+                var month = "" + (now.getMonth() + 1); if (month.length == 1) { month = "0" + month; }
+                var day = "" + now.getDate(); if (day.length == 1) { day = "0" + day; }
+                var hour = "" + (now.getHours()); if (hour.length == 1) { hour = "0" + hour; }
+                var minute = "" + now.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
+                var second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
+                return day +'-'+ month +'-'+ year +' '+ hour +':'+ minute+':'+second;
+            }
             var status = await requestify.get('http://35.184.211.155:3031/api/kycAsset/'+kycID).then(function (response) {
                 return [response.getBody().mobileNumber, response.getBody().passportNumber, response.getBody().homeCountryAddress, response.getBody().status];
             });
@@ -41,7 +52,7 @@ export const resolvers = {
             else {
                 phoneVal = "Not Verified"
             }
-            var changeObject = { kycId: input.kycId, requester: input.requester, requestedOn: input.requestedOn, respondedOn: "current Time", aadhar: aadharVal, passport: passportVal, phone: phoneVal, kycStatus: status[3] };
+            var changeObject = { kycId: input.kycId, requester: input.requester, requestedOn: input.requestedOn, respondedOn: timeStampFun(), aadhar: aadharVal, passport: passportVal, phone: phoneVal, kycStatus: status[3] };
             return await Request.create(changeObject);   
         },
         async updateRequest(root, { _id, input }) {
