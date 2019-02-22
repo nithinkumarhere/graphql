@@ -18,6 +18,22 @@ const RequestSchema = new Schema({
         type: String,
         required: true
     },
+    aadhar: {
+        type: String,
+        required: true
+    },
+    passport: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+    },
     kycStatus: {
         type: String,
         required: true
