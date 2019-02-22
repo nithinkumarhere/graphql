@@ -8,6 +8,10 @@ const typeDefs = `
             requester: String!
             requestedOn: String!
             respondedOn: String
+            aadhar: String!
+            passport: String!
+            phone: String!
+            address: String
             kycStatus: String
         }
         type Query {
@@ -19,6 +23,10 @@ const typeDefs = `
             requester: String!
             requestedOn: String!
             respondedOn: String
+            aadhar: String!
+            passport: String!
+            phone: String!
+            address: String
             kycStatus: String
         }
         type Mutation {
