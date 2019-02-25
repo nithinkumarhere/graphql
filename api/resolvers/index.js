@@ -26,7 +26,7 @@ export const resolvers = {
                 return day +'-'+ month +'-'+ year +' '+ hour +':'+ minute+':'+second;
             }
 
-            var status = await requestify.get('http://35.184.211.155:3031/api/kycAsset/' + kycID).then(function (response) {
+            var status = await requestify.get('http://35.188.108.193:3031/api/kycAsset/' + kycID).then(function (response) {
                     return [response.getBody().mobileNumber, response.getBody().passportNumber, response.getBody().homeCountryAddress, response.getBody().status];
             });
 
