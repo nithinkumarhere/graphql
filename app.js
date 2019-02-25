@@ -1,9 +1,13 @@
+import fs from 'fs';
+import http  from 'http';
+import https  from 'https';
 import express from 'express';
 import graphlHTTP from 'express-graphql';
 import mongoose from 'mongoose';
 import schema from './api/schema/index';
-
-
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/nrb.chilaka.in/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/nrb.chilaka.in/cert.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
 const app = express();
 const PORT = 5000;
 
@@ -31,7 +35,8 @@ app.use('/api', graphlHTTP({
     graphiql: true
 }));
 
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
 
-app.listen(PORT, () => {
-    console.log(`Server is listening on PORT ${PORT}`);
-});
+//httpServer.listen(PORT);
+httpsServer.listen(8443);
