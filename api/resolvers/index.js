@@ -50,7 +50,7 @@ export const resolvers = {
                 aadharVal = "Verified";
             }
             else {
-                aadharVal = "Not Verified"  
+                aadharVal = "Details Not Matched"  
             }
             
             //validate passport
@@ -59,7 +59,7 @@ export const resolvers = {
                 passportVal = "Verified";
             }
             else {
-                passportVal = "Not Verified"
+                passportVal = "Details Not Matched"
             }
 
             //validate phone
@@ -68,10 +68,19 @@ export const resolvers = {
                 phoneVal = "Verified";
             }
             else {
-                phoneVal = "Not Verified"
+                phoneVal = "Details Not Matched"
             }
 
-            var changeObject = { kycId: input.kycId, requester: input.requester, requestedOn: input.requestedOn, respondedOn: timeStampFun(), aadhar: aadharVal, passport: passportVal, phone: phoneVal, kycStatus: status[3] };
+            //validate KYC Status
+            var kycVal;
+            if(aadharVal == "Verified" && passportVal == "Verified" && phoneVal == "Verified"){
+                kycVal = status[3]
+            }
+            else{
+                kycVal = "Verification Failed"
+            }
+
+            var changeObject = { kycId: input.kycId, requester: input.requester, requestedOn: input.requestedOn, respondedOn: timeStampFun(), aadhar: aadharVal, passport: passportVal, phone: phoneVal, kycStatus: kycVal };
             return await Request.create(changeObject); 
         },
         async updateRequest(root, { _id, input }) {
