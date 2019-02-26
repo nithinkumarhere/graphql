@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prod": "nohup node ./index.js --exec babel-node -e js > server.log &",
     "start": "nodemon ./index.js --exec babel-node -e js"
   },
   "repository": {
@@ -32,6 +33,7 @@
     "graphql-tools": "^4.0.4",
     "http": "0.0.0",
     "https": "^1.0.0",
+    "jsonwebtoken": "^8.5.0",
     "mongoose": "^5.4.14",
     "request": "^2.88.0",
     "requestify": "^0.2.5"

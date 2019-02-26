@@ -1,4 +1,5 @@
 import Request from '../../models/request';
+import jwt from 'jsonwebtoken';
 var requestify = require('requestify'); 
 
 export const resolvers = {
@@ -9,10 +10,23 @@ export const resolvers = {
         },
         async allRequests() {
             return await Request.find();
+        },
+        async getToken() {
+            const token = jwt.sign(
+                { userId: "1", email: "nithin@gmail.com" },
+                'secretkey',
+                {
+                    expiresIn: '1h'
+                }
+            );
+            return token;
         }
     },
     Mutation: {
-        async createRequest(root, { input }) {
+        async createRequest(root, { input }, req) {
+            if (!req.isAuth) {
+                throw new Error('Unauthenticated!');
+            }
             var kycID = input.kycId;
 
             function timeStampFun() {

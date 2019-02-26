@@ -8,9 +8,10 @@ import schema from './api/schema/index';
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/nrb.chilaka.in/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('/etc/letsencrypt/live/nrb.chilaka.in/cert.pem', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
+const isAuth = require('./middleware/is-auth');
 const app = express();
 const PORT = 5000;
-
+app.use(isAuth);
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
@@ -39,4 +40,4 @@ const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
 
 //httpServer.listen(PORT);
-httpsServer.listen(8443);
+httpsServer.listen(443);

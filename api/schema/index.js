@@ -16,6 +16,7 @@ const typeDefs = `
         type Query {
             getRequest(_id: ID!): Request
             allRequests: [Request]
+            getToken: String
         }
         input RequestInput {
             kycId: String!
