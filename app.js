@@ -36,7 +36,7 @@ app.use('/api', graphlHTTP({
     graphiql: true
 }));
 
-const httpServer = http.createServer(app);
+//const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
 
 //httpServer.listen(PORT);
